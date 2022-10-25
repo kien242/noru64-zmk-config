@@ -1,1 +1,1 @@
-# noru64-zmk-config
+# ZMK-config-split-keyboards

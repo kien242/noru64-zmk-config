@@ -1,0 +1,108 @@
+/*
+ * Copyright (c) 2020 Eric Lau
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include "noru64_v1.dts"
+
+    / {
+        chosen {
+            zmk,underglow = &led_strip;
+            zmk,backlight = &backlight;
+            zmk,battery = &vbatt;
+        };
+    
+        kscan0: kscan_0 {
+            compatible = "zmk,kscan-gpio-matrix";
+            label = "KSCAN";
+            diode-direction = "col2row";
+    
+            col-gpios
+                = <&gpio1 15 GPIO_ACTIVE_HIGH>
+                , <&gpio0 2  GPIO_ACTIVE_HIGH>
+                , <&gpio1 13 GPIO_ACTIVE_HIGH>
+                , <&gpio0 27 GPIO_ACTIVE_HIGH>
+                , <&gpio0 7  GPIO_ACTIVE_HIGH>
+                , <&gpio0 19 GPIO_ACTIVE_HIGH>
+                , <&gpio0 25  GPIO_ACTIVE_HIGH>
+                ;
+    
+            row-gpios
+                = <&gpio0 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+                , <&gpio0 16 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+                , <&gpio0 12 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+                , <&gpio1 9  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+                , <&gpio0 5  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+                ;
+        };
+    
+    	leds {
+		    compatible = "gpio-leds";
+		    blue_led: led_0 {
+			    gpios = <&gpio0 17 GPIO_ACTIVE_HIGH>;
+			    label = "Blue LED";
+		    };
+		    green_led: led_1 {
+			    gpios = <&gpio0 21 GPIO_ACTIVE_HIGH>;
+			    label = "Green LED";
+		    };
+		    red_led: led_2 {
+			    gpios = <&gpio0 23 GPIO_ACTIVE_HIGH>;
+			    label = "Red LED";
+		    };
+	    };
+
+        ext-power {
+             compatible = "zmk,ext-power-generic";
+             label = "EXT_POWER";
+             control-gpios = <&gpio0 8 GPIO_ACTIVE_LOW>;   /*0.08*/
+        };
+    
+        vbatt: vbatt {
+             compatible = "zmk,battery-voltage-divider";
+             label = "VBATT";
+             io-channels = <&adc 2>;
+             output-ohms = <10000000>;
+		     full-ohms   = <(10000000 + 4000000)>;
+        };
+
+        backlight: pwmleds {
+             compatible = "pwm-leds";
+             label = "Backlight LEDs";
+             pwm_led_0 {
+                 pwms = <&pwm0 11>;
+                 label = "Backlight LED 0";
+        };
+    };
+};
+    &pwm0 {
+    status = "okay";
+    ch0-pin = <11>;     
+    //ch0-inverted;  /* Enable when use a P-channel MOSFET */
+    };
+
+    &spi1 {
+        status = "okay";
+    
+        mosi-pin = <13>;
+        
+        // Unused pins, needed for SPI definition, but not used by the ws2812 driver itself.
+        sck-pin = <40>;
+        miso-pin = <6>;
+    
+        led_strip: ws2812@0 {
+            compatible = "worldsemi,ws2812-spi";
+            label = "WS2812";
+    
+            /* SPI */
+            reg = <0>; /* ignored, but necessary for SPI bindings */
+            spi-max-frequency = <4000000>;
+    
+            /* WS2812 */
+            chain-length = <8>; /* LED strip length */
+            spi-one-frame = <0x70>;
+            spi-zero-frame = <0x40>;
+            color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
+        };
+    };

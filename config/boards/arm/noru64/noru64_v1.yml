@@ -1,0 +1,13 @@
+file_format: "1"
+id: noru64_v1
+name: Noru64 V1 Keyboard
+type: board
+arch: arm
+features:
+  - keys
+  - RGB
+outputs:
+  - usb
+  - ble
+url:
+  - https://github.com/kien242/ZMK-config-split-keyboards/tree/noru64

@@ -1,0 +1,21 @@
+manifest:
+  remotes:
+    - name: zmkfirmware
+      url-base: https://github.com/zmkfirmware
+    - name: kien242
+      url-base: https://github.com/kien242
+    - name: zmkfirmware-infused-kim
+      url-base: https://github.com/infused-kim
+    - name: zmkfirmware-split-battery-report
+      url-base: https://github.com/Katona/
+    - name: luna
+      url-base: https://github.com/pitchayath/
+  projects:
+    - name: zmk
+    
+      remote: zmkfirmware
+      revision: main
+
+      import: app/west.yml
+  self:
+    path: config

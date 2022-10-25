@@ -1,0 +1,12 @@
+# SP56 board configuration
+
+# Copyright (c) 2020 Eric Lau
+# SPDX-License-Identifier: MIT
+
+config BOARD_NORU64_V1_LEFT
+	bool "noru64_v1_left"
+	depends on SOC_NRF52840_QIAA
+
+config BOARD_NORU64_V1_RIGHT
+	bool "noru64_v1_right"
+	depends on SOC_NRF52840_QIAA

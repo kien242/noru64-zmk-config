@@ -1,0 +1,7 @@
+/*
+ * Copyright (c) 2020 Eric Lau
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include "noru64_v1.keymap"
