@@ -4,7 +4,7 @@
 if BOARD_NORU64_V1_LEFT
 
 	config ZMK_KEYBOARD_NAME
-	default "Noru64 v1 "
+	default "Noru64 v1 L"
 
 endif # BOARD_NORU64_V1_LEFT
 
