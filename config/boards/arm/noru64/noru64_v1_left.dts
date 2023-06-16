@@ -5,11 +5,11 @@
  */
 
 #include "noru64_v1.dts"
+#include "noru64_v1_left_pincrtl.dtsi"
 
     / {
         chosen {
             zmk,underglow = &led_strip;
-            zmk,backlight = &backlight;
             zmk,battery = &vbatt;
         };
     
@@ -66,43 +66,30 @@
              output-ohms = <10000000>;
 		     full-ohms   = <(10000000 + 4000000)>;
         };
-
-        backlight: pwmleds {
-             compatible = "pwm-leds";
-             label = "Backlight LEDs";
-             pwm_led_0 {
-                 pwms = <&pwm0 11>;
-                 label = "Backlight LED 0";
-        };
-    };
-};
-    &pwm0 {
-    status = "okay";
-    ch0-pin = <11>;     
-    //ch0-inverted;  /* Enable when use a P-channel MOSFET */
     };
 
-    &spi1 {
+    &spi3 {
+        compatible = "nordic,nrf-spim";
         status = "okay";
-    
-        mosi-pin = <13>;
-        
-        // Unused pins, needed for SPI definition, but not used by the ws2812 driver itself.
-        sck-pin = <40>;
-        miso-pin = <6>;
-    
+      
+        pinctrl-0 = <&spi3_default>;
+        pinctrl-1 = <&spi3_sleep>;
+        pinctrl-names = "default", "sleep";
+      
         led_strip: ws2812@0 {
-            compatible = "worldsemi,ws2812-spi";
-            label = "WS2812";
-    
-            /* SPI */
-            reg = <0>; /* ignored, but necessary for SPI bindings */
-            spi-max-frequency = <4000000>;
-    
-            /* WS2812 */
-            chain-length = <8>; /* LED strip length */
-            spi-one-frame = <0x70>;
-            spi-zero-frame = <0x40>;
-            color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
+          compatible = "worldsemi,ws2812-spi";
+          label = "WS2812";
+      
+          /* SPI */
+          reg = <0>; /* ignored, but necessary for SPI bindings */
+          spi-max-frequency = <4000000>;
+      
+          /* WS2812 */
+          chain-length = <8>; /* number of LEDs */
+          spi-one-frame = <0x70>;
+          spi-zero-frame = <0x40>;
+          color-mapping = <LED_COLOR_ID_GREEN
+                                LED_COLOR_ID_RED
+                                LED_COLOR_ID_BLUE>;
         };
-    };
+      };

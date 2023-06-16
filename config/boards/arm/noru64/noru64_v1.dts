@@ -3,6 +3,7 @@
     / {
         chosen {
             zmk,matrix_transform = &default_transform;
+            zmk,kscan = &kscan0;
         };
     
         default_transform: keymap_transform_0 {

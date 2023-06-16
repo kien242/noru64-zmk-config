@@ -7,7 +7,6 @@
 /dts-v1/;
 #include <nordic/nrf52840_qiaa.dtsi>
 #include <dt-bindings/zmk/matrix_transform.h>
-#include <dt-bindings/led/led.h>
 
 / {
 	model = "noru64";
@@ -18,7 +17,6 @@
 		zephyr,sram = &sram0;
 		zephyr,flash = &flash0;
 		zephyr,console = &cdc_acm_uart;
-		zmk,kscan = &kscan0;
 	};
 };
 
@@ -36,23 +34,6 @@
 
 &gpio1 {
 	status = "okay";
-};
-
-&usbd {
-	status = "okay";
-};
-
-&spi1 {
-	compatible = "nordic,nrf-spim";
-};
-
-&i2c0 {
- 	compatible = "nordic,nrf-twi";
-};
-
-
-&spi0 {
-	compatible = "nordic,nrf-spim";
 };
 
 &usbd {
